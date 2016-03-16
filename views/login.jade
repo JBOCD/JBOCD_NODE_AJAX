@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	#login-modal.modal.fade.in(tabindex="-1", role="dialog", data-backdrop="static", aria-labelledby="login-modal-label", style="display: none;")
+		div.modal-dialog
+			div.modal-content
+				div.modal-header
+					h1.modal-title.text-primary="Login to JBOCD"
+				form(method="POST", action="users")
+					div.modal-body
+						div.form-group: input.form-control(type="text", name="user", placeholder="Username")
+						div.form-group: input.form-control(id="password", type="password", name="pass", placeholder="Password")
+					div.modal-footer
+						input.btn.btn-primary(id="submit", type="submit", name="login", value="Login")
+						a.btn.btn-default.pull-left(href="#")="Register"
+						a.btn.btn-default.pull-left(href="#")="Forgot Password"
+
+block script
+	script(src="/javascripts/sha1.js")
+	script.
+		$('#submit').click(function(){
+			$("#password").val(CryptoJS.SHA1($('#password').val()).toString(CryptoJS.enc.Base64));
+		});
+		$(function(){
+			$('#login-modal').modal('show');
+		});
